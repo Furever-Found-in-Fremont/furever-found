@@ -17,7 +17,7 @@ const grid=document.getElementById("pets"),msg=document.getElementById("petmsg")
 const AGE={young:"Young",adult:"Adult",senior:"Senior"},cap=t=>t?t[0].toUpperCase()+t.slice(1):"";
 function age(p){if(p.age_category==="youngest")return p.species==="cat"?"Kitten":p.species==="dog"?"Puppy":"Baby";return AGE[p.age_category]||cap(p.age_category);}
 function card(p){const c=document.createElement("article");c.className="pet";
-if(p.image_url&&/^https:/.test(p.image_url)){const i=document.createElement("img");i.src=p.image_url;i.alt=p.name;i.loading="lazy";c.append(i);}
+const pic=(p.images||[])[0];if(pic&&/^https:/.test(pic)){const i=document.createElement("img");i.src=pic;i.alt=p.name;i.loading="lazy";c.append(i);}
 else{const ph=document.createElement("div");ph.className="ph";ph.textContent="Photo coming soon";c.append(ph);}
 const d=document.createElement("div"),h=document.createElement("h3"),t=document.createElement("p");
 const lk=document.createElement("a");lk.href="/adopt/"+p.slug;lk.textContent=p.name;h.append(lk);t.textContent=[cap(p.species),[].concat(p.breed||[]).join(", "),cap(p.sex),age(p)].filter(Boolean).join(" \u00b7 ");
