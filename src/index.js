@@ -1,7 +1,24 @@
 import { PawPlacerClient } from "pawplacer-sdk";
 
-// GET /api/pets?species=dog|cat&search=text  ->  { pets, total, hasMore }
+// GET /api/pets?species=dog|cat  ->  { pets }  (only animals marked public in PawPlacer)
 // The PawPlacer key lives in the PAWPLACER_API_KEY secret, never in browser code.
+// Only these fields are ever sent to the public. Health notes, vet, adopter and internal data stay private.
+const pick = (p) => ({
+  id: p.id,
+  name: p.name,
+  species: p.species,
+  sex: p.sex,
+  breed: p.breed || [],
+  age_category: p.age_category,
+  age_years: p.age_years,
+  age_months: p.age_months,
+  description: p.description || "",
+  image_url: p.image_url || (p.image_urls && p.image_urls[0]) || null,
+  temperaments: p.temperaments || [],
+  good_with: p.good_with || [],
+  bad_with: p.bad_with || [],
+});
+
 async function pets(request, env, ctx) {
   const cache = caches.default;
   const hit = await cache.match(request);
@@ -9,21 +26,19 @@ async function pets(request, env, ctx) {
 
   const url = new URL(request.url);
   const species = url.searchParams.get("species") || undefined;
-  const search = url.searchParams.get("search") || undefined;
 
   try {
     const client = new PawPlacerClient({ apiKey: env.PAWPLACER_API_KEY });
-    const result = await client.pets.list({ status: "available", species, search, limit: 24 });
-    const res = new Response(
-      JSON.stringify({ pets: result.data, total: result.total, hasMore: result.hasMore }),
-      { headers: { "content-type": "application/json", "cache-control": "public, max-age=300" } }
-    );
+    const result = await client.pets.list({ status: "available", species, limit: 100 });
+    const list = result.data.filter((p) => p.show_public === true && !p.is_sample).map(pick);
+    const res = new Response(JSON.stringify({ pets: list }), {
+      headers: { "content-type": "application/json", "cache-control": "public, max-age=300" },
+    });
     ctx.waitUntil(cache.put(request, res.clone()));
     return res;
   } catch (err) {
-    // TEMPORARY DEBUG: remove "detail" and "keyPresent" once the grid works.
     console.error("pets error", err);
-    return new Response(JSON.stringify({ error: "Animals are unavailable right now.", detail: String((err && err.message) || err), keyPresent: Boolean(env.PAWPLACER_API_KEY) }), {
+    return new Response(JSON.stringify({ error: "Animals are unavailable right now." }), {
       status: 502,
       headers: { "content-type": "application/json", "cache-control": "no-store" },
     });

@@ -15,3 +15,4 @@ footer{border-top:3px solid var(--green);padding:1.5rem 5%;font-size:.95rem;text
 .pet{border:1px solid var(--line);border-radius:6px;overflow:hidden;background:#fff}.pet img{display:block;width:100%;aspect-ratio:4/3;object-fit:cover;background:var(--tint)}
 .pet div{padding:.75rem}.pet h3{margin:0 0 .25rem}.pet p{margin:0;font-size:.95rem}
 .filters button{font:inherit;padding:.35rem .9rem;margin-right:.4rem;border:2px solid var(--green);background:#fff;color:var(--green);border-radius:4px;cursor:pointer}.filters button[aria-pressed=true]{background:var(--green);color:#fff}
+.pet .ph{padding:0;aspect-ratio:4/3;display:grid;place-items:center;background:var(--tint);color:var(--brown);font-weight:600}.pet div:not(.ph){padding:.75rem}.pet p+p{margin-top:.4rem}
