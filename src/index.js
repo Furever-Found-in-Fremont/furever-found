@@ -21,7 +21,9 @@ async function pets(request, env, ctx) {
     ctx.waitUntil(cache.put(request, res.clone()));
     return res;
   } catch (err) {
-    return new Response(JSON.stringify({ error: "Animals are unavailable right now." }), {
+    // TEMPORARY DEBUG: remove "detail" and "keyPresent" once the grid works.
+    console.error("pets error", err);
+    return new Response(JSON.stringify({ error: "Animals are unavailable right now.", detail: String((err && err.message) || err), keyPresent: Boolean(env.PAWPLACER_API_KEY) }), {
       status: 502,
       headers: { "content-type": "application/json", "cache-control": "no-store" },
     });
