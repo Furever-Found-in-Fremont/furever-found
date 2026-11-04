@@ -14,13 +14,14 @@
 <div id="pets" class="pets" aria-live="polite"></div><p id="petmsg">Loading animals&hellip;</p>
 <script>
 const grid=document.getElementById("pets"),msg=document.getElementById("petmsg");
-const AGE={youngest:"Baby",young:"Young",adult:"Adult",senior:"Senior"},cap=t=>t?t[0].toUpperCase()+t.slice(1):"";
+const AGE={young:"Young",adult:"Adult",senior:"Senior"},cap=t=>t?t[0].toUpperCase()+t.slice(1):"";
+function age(p){if(p.age_category==="youngest")return p.species==="cat"?"Kitten":p.species==="dog"?"Puppy":"Baby";return AGE[p.age_category]||cap(p.age_category);}
 function card(p){const c=document.createElement("article");c.className="pet";
 if(p.image_url&&/^https:/.test(p.image_url)){const i=document.createElement("img");i.src=p.image_url;i.alt=p.name;i.loading="lazy";c.append(i);}
 else{const ph=document.createElement("div");ph.className="ph";ph.textContent="Photo coming soon";c.append(ph);}
 const d=document.createElement("div"),h=document.createElement("h3"),t=document.createElement("p");
-h.textContent=p.name;t.textContent=[cap(p.species),[].concat(p.breed||[]).join(", "),cap(p.sex),AGE[p.age_category]||cap(p.age_category)].filter(Boolean).join(" \u00b7 ");
-d.append(h,t);if(p.description){const x=document.createElement("p");x.textContent=p.description.length>140?p.description.slice(0,140)+"\u2026":p.description;d.append(x);}
+h.textContent=p.name;t.textContent=[cap(p.species),[].concat(p.breed||[]).join(", "),cap(p.sex),age(p)].filter(Boolean).join(" \u00b7 ");
+d.append(h,t);if((p.temperaments||[]).length){const m=document.createElement("p");m.textContent=p.temperaments.slice(0,4).map(cap).join(", ");d.append(m);}if(p.description){const x=document.createElement("p");x.textContent=p.description.length>140?p.description.slice(0,140)+"\u2026":p.description;d.append(x);}
 c.append(d);return c;}
 async function load(s){grid.replaceChildren();msg.hidden=false;msg.textContent="Loading animals\u2026";
 try{const r=await fetch("/api/pets"+(s?"?species="+s:""));if(!r.ok)throw 0;const j=await r.json();
