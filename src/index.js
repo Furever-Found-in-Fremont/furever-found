@@ -2,6 +2,7 @@ import { PawPlacerClient } from "pawplacer-sdk";
 import { TEMPLATE } from "./template.js";
 
 // ---------- helpers ----------
+const APPLY_URL = "https://www.pawplacer.com/adopter/1aecc413-59e7-4495-8f5d-b2dc9b409be9";
 const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 const cap = (t) => (t ? t[0].toUpperCase() + t.slice(1) : "");
 const nameSlug = (n) =>
@@ -100,8 +101,8 @@ function petPage(p, origin) {
 <div><h1>${esc(p.name)}</h1><dl class="facts">${facts.map(([k, v]) => `<dt>${k}</dt><dd>${esc(v)}</dd>`).join("")}</dl>
 ${paras.length ? paras.map((x) => `<p>${esc(x)}</p>`).join("") : `<p>We&rsquo;re still getting to know ${esc(p.name)}. Call us to learn more.</p>`}
 ${list("Personality", p.temperaments)}${list("Good with", p.good_with)}${list("Not good with", p.bad_with)}${list("Special needs", p.special_needs)}
-<div class="note"><strong>Interested in ${esc(p.name)}?</strong> Adoption starts with an application. Call or email us and we&rsquo;ll get you started. Visits are by appointment only.<br>
-<a class="btn" href="mailto:info@fureverfound.pet?subject=${subject}">Email us</a><a class="btn alt" href="tel:+13074143516">Call (307) 414-3516</a></div>
+<div class="note"><strong>Interested in ${esc(p.name)}?</strong> Adoption starts with an application, and we aim to respond within 24 to 48 hours. Visits are by appointment only.<br>
+<a class="btn" href="${APPLY_URL}">Apply to adopt</a><a class="btn alt" href="mailto:info@fureverfound.pet?subject=${subject}">Email us</a><a class="btn alt" href="tel:+13074143516">Call (307) 414-3516</a></div>
 <p class="share"><button type="button" onclick="navigator.clipboard.writeText(location.href).then(()=>this.textContent='Link copied!')">Copy link</button>
 <a href="https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(canon)}">Share on Facebook</a></p></div></div></main>`;
   return page(`${p.name} | Adoptable ${kind} | Furever Found in Fremont`, head, content);
