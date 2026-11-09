@@ -23,3 +23,6 @@ footer{border-top:3px solid var(--green);padding:1.5rem 5%;font-size:.95rem;text
 .chips{display:flex;flex-wrap:wrap;gap:.4rem;padding:0;list-style:none}.chips li{background:var(--tint);border:1px solid var(--line);border-radius:99px;padding:.1rem .7rem;font-size:.95rem}
 .share button,.share a{font:inherit;margin-right:.5rem}.back{margin:0 0 1rem}
 .hero{background:linear-gradient(rgba(238,242,230,.86),rgba(238,242,230,.86)),url(images/banner.jpg) center/cover no-repeat}
+.photo{margin:1.5rem 0}.photo img{display:block;width:100%;max-height:26rem;object-fit:cover;border-radius:6px}
+.photos2{display:grid;gap:1rem;grid-template-columns:repeat(auto-fit,minmax(14rem,1fr))}.photos2 .photo{margin:0}.photos2 .photo img{aspect-ratio:3/4;max-height:none}
+.mason{columns:16rem 3;column-gap:1rem}.mason a{display:block;margin-bottom:1rem;break-inside:avoid}.mason img{display:block;width:100%;border-radius:6px}
