@@ -22,3 +22,4 @@ footer{border-top:3px solid var(--green);padding:1.5rem 5%;font-size:.95rem;text
 .facts{display:grid;grid-template-columns:auto 1fr;gap:.25rem 1rem}.facts dt{font-weight:700;color:var(--green)}.facts dd{margin:0}
 .chips{display:flex;flex-wrap:wrap;gap:.4rem;padding:0;list-style:none}.chips li{background:var(--tint);border:1px solid var(--line);border-radius:99px;padding:.1rem .7rem;font-size:.95rem}
 .share button,.share a{font:inherit;margin-right:.5rem}.back{margin:0 0 1rem}
+.hero{background:linear-gradient(rgba(238,242,230,.86),rgba(238,242,230,.86)),url(images/banner.jpg) center/cover no-repeat}
